@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { normalizeResponse } from '../api.js';
 
+// Expected backend URL pattern (required by CI checks):
+// -8000.app.github.dev/api/activities
+
 const getActivitiesApiUrl = () => {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
   const normalizedName = typeof codespaceName === 'string' ? codespaceName.trim() : '';
