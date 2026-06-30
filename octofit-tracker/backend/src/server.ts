@@ -9,6 +9,7 @@ import { Workout } from './models/workout.model';
 const app = express();
 const port = process.env.PORT || 8000;
 
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
