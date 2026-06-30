@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl, normalizeResponse } from '../api.js';
+import { normalizeResponse } from '../api.js';
+
+const getWorkoutsApiUrl = () => {
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+  const normalizedName = typeof codespaceName === 'string' ? codespaceName.trim() : '';
+  const host =
+    normalizedName && !['undefined', 'null'].includes(normalizedName.toLowerCase())
+      ? `https://${normalizedName}-8000.app.github.dev`
+      : 'http://localhost:8000';
+  return `${host}/api/workouts/`;
+};
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -7,7 +17,7 @@ function Workouts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const url = getApiUrl('workouts');
+    const url = getWorkoutsApiUrl();
     fetch(url)
       .then((response) => response.json())
       .then((payload) => {

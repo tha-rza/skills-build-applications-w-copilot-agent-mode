@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl, normalizeResponse } from '../api.js';
+import { normalizeResponse } from '../api.js';
+
+const getLeaderboardApiUrl = () => {
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+  const normalizedName = typeof codespaceName === 'string' ? codespaceName.trim() : '';
+  const host =
+    normalizedName && !['undefined', 'null'].includes(normalizedName.toLowerCase())
+      ? `https://${normalizedName}-8000.app.github.dev`
+      : 'http://localhost:8000';
+  return `${host}/api/leaderboard/`;
+};
 
 function Leaderboard() {
   const [entries, setEntries] = useState([]);
@@ -7,7 +17,7 @@ function Leaderboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const url = getApiUrl('leaderboard');
+    const url = getLeaderboardApiUrl();
     fetch(url)
       .then((response) => response.json())
       .then((payload) => {
