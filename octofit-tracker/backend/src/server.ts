@@ -1,5 +1,5 @@
 import express = require('express');
-import { connectDatabase } from './db';
+import { connectDatabase } from './config/database';
 import { Activity } from './models/activity.model';
 import { Leaderboard } from './models/leaderboard.model';
 import { Team } from './models/team.model';
