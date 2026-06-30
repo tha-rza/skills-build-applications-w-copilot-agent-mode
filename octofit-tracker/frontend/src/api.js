@@ -1,9 +1,26 @@
-export const getCodespaceApiHost = () => {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-  if (codespaceName && codespaceName.trim()) {
-    return `https://${codespaceName}-8000.app.github.dev`;
+const normalizeCodespaceName = (value) => {
+  if (typeof value !== 'string') {
+    return '';
   }
-  return 'http://localhost:8000';
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return '';
+  }
+
+  const normalized = trimmed.toLowerCase();
+  if (normalized === 'undefined' || normalized === 'null') {
+    return '';
+  }
+
+  return trimmed;
+};
+
+export const getCodespaceApiHost = () => {
+  const codespaceName = normalizeCodespaceName(import.meta.env.VITE_CODESPACE_NAME);
+  return codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
 };
 
 export const getApiUrl = (resourceName) => `${getCodespaceApiHost()}/api/${resourceName}/`;

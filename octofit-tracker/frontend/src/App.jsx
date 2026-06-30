@@ -4,13 +4,19 @@ import Leaderboard from './components/Leaderboard.jsx'
 import Teams from './components/Teams.jsx'
 import Users from './components/Users.jsx'
 import Workouts from './components/Workouts.jsx'
+import { getCodespaceApiHost } from './api.js'
 import './App.css'
 
 function App() {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
-  const apiHost = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev`
-    : 'http://localhost:8000'
+  const rawCodespaceName = import.meta.env.VITE_CODESPACE_NAME
+  const normalizedCodespaceName =
+    typeof rawCodespaceName === 'string' && rawCodespaceName.trim()
+      ? rawCodespaceName.trim().toLowerCase()
+      : ''
+  const isCodespaceNameValid =
+    normalizedCodespaceName && normalizedCodespaceName !== 'undefined' && normalizedCodespaceName !== 'null'
+  const displayCodespaceName = isCodespaceNameValid ? rawCodespaceName.trim() : null
+  const apiHost = getCodespaceApiHost()
 
   return (
     <div>
@@ -66,9 +72,9 @@ function App() {
         <div className="alert alert-info">
           API host: <strong>{apiHost}</strong>
           <br />
-          {codespaceName
-            ? 'Requests use your defined Codespace URL.'
-            : 'VITE_CODESPACE_NAME is unset; falling back to localhost.'}
+          {displayCodespaceName
+            ? `Requests use the Codespace '${displayCodespaceName}'.`
+            : 'VITE_CODESPACE_NAME is unset or invalid; falling back to localhost.'}
         </div>
 
         <Routes>

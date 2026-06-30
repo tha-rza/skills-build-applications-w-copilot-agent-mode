@@ -22,7 +22,7 @@ When this value is set, frontend requests use:
 https://<VITE_CODESPACE_NAME>-8000.app.github.dev/api/[component]/
 ```
 
-If `VITE_CODESPACE_NAME` is unset, the app safely falls back to:
+If `VITE_CODESPACE_NAME` is unset, empty, or invalid, the app safely falls back to:
 
 ```text
 http://localhost:8000/api/[component]/
